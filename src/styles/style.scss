@@ -1,10 +1,12 @@
 body {
-  background-color: red;
+  background-color: rgb(147, 219, 241);
 
   h1 {
     color: rgb(63, 66, 63);
     font-size: 25px;
     font-weight: 500;
     line-height: 20px;
+    background-color: #fff;
+    border: 2px solid yellow
   }
 }

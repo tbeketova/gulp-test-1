@@ -1,2 +1,3 @@
 let count = 4
-console.log(count);
+let summ = 4+4
+console.log(summ);

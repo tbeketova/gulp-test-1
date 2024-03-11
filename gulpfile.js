@@ -8,10 +8,11 @@ const rename = require('gulp-rename')
 const cleanCSS = require('gulp-clean-css')
 const babel = require('gulp-babel')
 
-//const babel = require('babel') //для js
 const uglify = require('gulp-uglify') //для js
 const concat = require('gulp-concat') //для js
-
+const sourcemaps = require('gulp-sourcemaps')
+const autoPrefixer = require('gulp-autoprefixer')
+const imagemin = require('gulp-imagemin')
 
 /*Удаляем папку dist */
 function clean() { 
@@ -27,34 +28,49 @@ const paths = { //храним пути до наших файлов, ** люб�
   scripts: {
     src: 'src/scripts/**/*.js',
     dest: 'dist/js/'
+  },
+  images: {
+    src: 'src/images/*',
+    dest: 'dist/images/' // *- означает любьiе файльi
   }
 } 
 
 /*задача для обработки стилей*/
 function styles() { 
   return src(paths.styles.src) //ищем в src все файли
+    .pipe(sourcemaps.init()) //создает main.min.css.map
     .pipe(sassCompiler()) //создается компилируемий sass в css
-    .pipe(cleanCSS())
+    .pipe(autoPrefixer( {
+			cascade: false
+		}))
+    .pipe(cleanCSS({
+      level: 2
+    }))
     .pipe(rename({
       basename: 'main', //так как файл main.css
       suffix: '.min'
     }))
-    .pipe(dest(paths.styles.dest));  //и перемещаем все в каталог dest/css
+    .pipe(sourcemaps.write('.')) //добавляет файл .map в dist/css и создает main.min.js.map
+    .pipe(gulp.dest(paths.styles.dest));  //и перемещаем все в каталог dest/css
 }
 
 /*задача для обработки скриптов*/
 function scripts() { 
-  return gulp.src(paths.scripts.src, {
-    sourcemaps: true
-  })
-  .pipe(babel(
-   /*  {
-      presets: ['@babel/env']
-    } */
-  ))
+  return gulp.src(paths.scripts.src)
+  .pipe(sourcemaps.init()) //создает main.min.js.map
+  .pipe(babel({
+    presets: ['@babel/env']
+  }))
   .pipe(uglify())
   .pipe(concat('main.min.js')) //можно и через rename ({ basename: 'main', suffix: '.min'})
+  .pipe(sourcemaps.write('.')) //создает main.min.js.map
   .pipe(gulp.dest(paths.scripts.dest))
+}
+
+function img() {
+  return gulp.src(paths.images.src) //указиваем путь
+		.pipe(imagemin())
+		.pipe(gulp.dest(paths.images.dest))
 }
 
 /*отслеживание изменений и автоматич виполнение тасков*/
@@ -64,7 +80,7 @@ function watch() {
 }
 
 /*позволяет виполнять таски в последовательном режиме*/
-const build = gulp.series(clean, gulp.parallel(styles,scripts), watch) 
+const build = gulp.series(clean, gulp.parallel(styles,scripts,img), watch) 
 //  в консоле визиваем gulp
 
 //иногда можно и так const buildP = gulp.parallel()  //виполняются таски параллельно
@@ -72,6 +88,7 @@ const build = gulp.series(clean, gulp.parallel(styles,scripts), watch)
 exports.clean = clean; //таски для виполнения задач
 exports.styles = styles;
 exports.scripts = scripts;
+exports.img = img;
 exports.watch = watch; //gulp watch запускает watcher
 exports.build = build; 
 exports.default = build; //  в консоле визиваем gulp
