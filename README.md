@@ -24,4 +24,5 @@
 [gulp-imagemin](https://www.npmjs.com/package/gulp-imagemin) Сжатие изображений   
 [gulp-concat](https://www.npmjs.com/package/gulp-concat) Объединение нескольких файлов в один  
 [gulp-rename](https://www.npmjs.com/package/gulp-rename) Переименовывает файлы    
-[browser-sync](https://browsersync.io/docs/gulp) Автоматическое обновление сайта при изменении файлов
+[gulp-sourcemaps](https://www.npmjs.com/package/gulp-sourcemaps) Карта строк кода для инструментов  разработчика   
+[gulp-autoprefixer](https://www.npmjs.com/package/gulp-autoprefixer) Автоматическое добавление префиксов в CSS
