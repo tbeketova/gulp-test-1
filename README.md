@@ -26,3 +26,4 @@
 [gulp-rename](https://www.npmjs.com/package/gulp-rename) Переименовывает файлы    
 [gulp-sourcemaps](https://www.npmjs.com/package/gulp-sourcemaps) Карта строк кода для инструментов  разработчика   
 [gulp-autoprefixer](https://www.npmjs.com/package/gulp-autoprefixer) Автоматическое добавление префиксов в CSS
+[gulp-imagemin](https://www.npmjs.com/package/gulp-imagemin) Сжатие изображений 
