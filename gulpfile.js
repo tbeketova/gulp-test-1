@@ -69,7 +69,9 @@ function scripts() {
 
 function img() {
   return gulp.src(paths.images.src) //указиваем путь
-		.pipe(imagemin())
+		.pipe(imagemin({
+      progressive: true
+    }))
 		.pipe(gulp.dest(paths.images.dest))
 }
 
